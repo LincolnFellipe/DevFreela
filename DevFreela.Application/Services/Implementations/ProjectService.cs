@@ -26,13 +26,6 @@ namespace DevFreela.Application.Services.Implementations
             _connectionString = configuration.GetConnectionString("DevFreelaCs");
         }
 
-        public void Delete(int id)
-        {
-            var project = _dbContext.Projects.SingleOrDefault(p => p.Id == id);
-            project.Cancel();
-            _dbContext.SaveChanges();
-        }
-
         public void Finish(int id)
         {
             var project = _dbContext.Projects.SingleOrDefault(p => p.Id == id);
@@ -81,13 +74,6 @@ namespace DevFreela.Application.Services.Implementations
                 var script = "UPDATE Projects SET Status = @status, StartedAt = @startedat, WHERE Id = @id";
                 sqlConnection.Execute(script, new { status = project.Status, startedat = project.StartedAt, id }); // Aqui eu passei os parâmetros como um objeto, mas da pra utilizar coleções pra fazer isso tb.
             }
-        }
-
-        public void Update(UpdateProjectInputModel inputModel)
-        {
-            var project = _dbContext.Projects.SingleOrDefault(p => p.Id == inputModel.Id);
-            project.Update(inputModel.Title, inputModel.Description, inputModel.TotalCost);
-            _dbContext.SaveChanges();
         }
     }
 }
