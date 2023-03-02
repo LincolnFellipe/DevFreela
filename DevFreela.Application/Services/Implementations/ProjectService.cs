@@ -26,13 +26,6 @@ namespace DevFreela.Application.Services.Implementations
             _connectionString = configuration.GetConnectionString("DevFreelaCs");
         }
 
-        public void CreateComment(CreateCommentInputModel inputModel)
-        {
-            var comment = new ProjectComment(inputModel.Content, inputModel.IdUser, inputModel.IdProject);
-            _dbContext.ProjectComments.Add(comment);
-            _dbContext.SaveChanges();
-        }
-
         public void Delete(int id)
         {
             var project = _dbContext.Projects.SingleOrDefault(p => p.Id == id);

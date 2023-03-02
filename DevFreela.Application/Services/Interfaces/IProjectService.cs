@@ -16,6 +16,5 @@ namespace DevFreela.Application.Services.Interfaces
         void Delete(int id);
         void Start(int id);
         void Finish(int id);
-        void CreateComment(CreateCommentInputModel inputModel);
     }
 }
