@@ -1,6 +1,7 @@
 ﻿using DevFreela.API.Models;
 using DevFreela.Application.Commands.CreateComment;
 using DevFreela.Application.Commands.CreateProject;
+using DevFreela.Application.Commands.DeleteProject;
 using DevFreela.Application.InputModels;
 using DevFreela.Application.Services.Interfaces;
 using MediatR;
@@ -74,12 +75,11 @@ namespace DevFreela.API.Controllers
 
         // api/projects/3 DELETE
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            // Buscar, se não existir, retorna NotFound
-
-            // Remover 
-            _projectService.Delete(id);
+        public async Task<IActionResult> Delete(int id)
+        {         
+            // Remover - CQRS
+            var command = new DeleteProjectCommand(id);
+            await _mediator.Send(command);
             return NoContent();
         }
 
