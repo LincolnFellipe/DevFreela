@@ -2,9 +2,12 @@
 using DevFreela.Application.Commands.CreateComment;
 using DevFreela.Application.Commands.CreateProject;
 using DevFreela.Application.Commands.DeleteProject;
+using DevFreela.Application.Commands.FinishProject;
+using DevFreela.Application.Commands.StartProject;
 using DevFreela.Application.Commands.UpdateProject;
 using DevFreela.Application.InputModels;
 using DevFreela.Application.Queries.GetAllProjects;
+using DevFreela.Application.Queries.GetProjectById;
 using DevFreela.Application.Services.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -38,18 +41,29 @@ namespace DevFreela.API.Controllers
 
         // api/projects/2
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            // Buscar o projeto
-            var projects = _projectService.GetById(id);
-            if (projects == null)
+            //// Buscar o projeto via camada de servico
+            //var projects = _projectService.GetById(id);
+            //if (projects == null)
+            //{
+            //    return NotFound();
+            //}
+            //else
+            //{
+            //    return Ok();
+            //}
+            //Buscando via padrão CQRS
+            var query = new GetProjectByIdQuery(id);
+
+            var project = await _mediator.Send(query);
+
+            if (project == null)
             {
                 return NotFound();
             }
-            else
-            {
-                return Ok();
-            }
+
+            return Ok(project);
         }
 
         [HttpPost]
@@ -99,17 +113,33 @@ namespace DevFreela.API.Controllers
 
         // api/projects/1/start
         [HttpPut("{id}/start")]
-        public IActionResult Start(int id)
+        public async Task<IActionResult> Start(int id)
         {
-            _projectService.Start(id);
+            //Buscando via camada service
+            //_projectService.Start(id);
+            //return NoContent();
+
+            //Buscando via CQRS
+            var command = new StartProjectCommand(id);
+
+            await _mediator.Send(command);
+
             return NoContent();
         }
 
         // api/projects/1/finish
         [HttpPut("{id}/finish")]
-        public IActionResult Finish(int id)
+        public async Task<IActionResult> Finish(int id)
         {
-            _projectService.Finish(id);
+            //Buscando via camada de servico
+            //_projectService.Finish(id);
+            //return NoContent();
+
+            //Buscando via CQRS
+            var command = new FinishProjectCommand(id);
+
+            await _mediator.Send(command);
+
             return NoContent();
         }
     }
