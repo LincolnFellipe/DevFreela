@@ -4,6 +4,7 @@ using DevFreela.Application.ViewModels;
 using DevFreela.Core.Entities;
 using DevFreela.Infrastructure.Persistence;
 using System.Linq;
+//OBSERVACAO ::::: NAO ESTOU MAIS UTILIZANDO A CAMADA DE SERVICE - MANTIVE NO PROJETO APENAS PARA CONSULTA
 
 namespace DevFreela.Application.Services.Implementations
 {

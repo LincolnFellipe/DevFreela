@@ -13,7 +13,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+//OBSERVACAO ::::: NAO ESTOU MAIS UTILIZANDO A CAMADA DE SERVICE - MANTIVE NO PROJETO APENAS PARA CONSULTA
 namespace DevFreela.Application.Services.Implementations
 {
     public class ProjectService : IProjectService
