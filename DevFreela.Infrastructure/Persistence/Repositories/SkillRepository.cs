@@ -19,7 +19,7 @@ namespace DevFreela.Infrastructure.Persistence.Repositories
             _connectionString = configuration.GetConnectionString("DevFreelaCs");
         }
 
-        public async Task<List<SkillDTO>> GetAll()
+        public async Task<List<SkillDTO>> GetAllAsync()
         {
             //Usando dapper
             using (var sqlConnection = new SqlConnection(_connectionString))
