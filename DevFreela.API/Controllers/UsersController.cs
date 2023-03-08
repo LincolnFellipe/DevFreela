@@ -2,7 +2,7 @@
 using DevFreela.Application.Commands.CreateUser;
 using DevFreela.Application.InputModels;
 using DevFreela.Application.Queries.GetUser;
-using DevFreela.Application.Services.Interfaces;
+//using DevFreela.Application.Services.Interfaces;
 using DevFreela.Core.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

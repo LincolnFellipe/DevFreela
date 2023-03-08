@@ -8,7 +8,7 @@ using DevFreela.Application.Commands.UpdateProject;
 using DevFreela.Application.InputModels;
 using DevFreela.Application.Queries.GetAllProjects;
 using DevFreela.Application.Queries.GetProjectById;
-using DevFreela.Application.Services.Interfaces;
+//using DevFreela.Application.Services.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -19,11 +19,11 @@ namespace DevFreela.API.Controllers
     public class ProjectsController : ControllerBase
     {
         private readonly OpeningTimeOption _option;
-        private readonly IProjectService _projectService;
+        //private readonly IProjectService _projectService;
         private readonly IMediator _mediator;
-        public ProjectsController(IProjectService projectService, IMediator mediator)
+        public ProjectsController( IMediator mediator)
         {
-           _projectService = projectService;
+           //_projectService = projectService;
             _mediator = mediator;
         }
         // api/projects?query=net core
