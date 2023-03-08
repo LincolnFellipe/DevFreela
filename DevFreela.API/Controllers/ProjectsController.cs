@@ -69,11 +69,6 @@ namespace DevFreela.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateProjectCommand command)
         {
-            if (command.Title.Length > 50)
-            {
-                return BadRequest();
-            }
-
             //Cadastrando pelo padrão CQRS - Mediator
             var id = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetById), new { id = id }, command);

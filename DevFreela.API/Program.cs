@@ -1,10 +1,14 @@
+using DevFreela.API.Filters;
 using DevFreela.API.Models;
 using DevFreela.Application.Commands.CreateProject;
+using DevFreela.Application.Commands.CreateUser;
 using DevFreela.Application.Services.Implementations;
 using DevFreela.Application.Services.Interfaces;
+using DevFreela.Application.Validators;
 using DevFreela.Core.Repositories;
 using DevFreela.Infrastructure.Persistence;
 using DevFreela.Infrastructure.Persistence.Repositories;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +23,8 @@ builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddTransient<ISkillRepository, SkillRepository>();
 builder.Services.AddTransient<IProjectRepository, ProjectRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.Filters.Add(typeof(ValidationFilter)))
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserCommandValidator>());
 builder.Services.AddMediatR(typeof(CreateProjectCommand));
 builder.Services.AddDbContext<DevFreelaDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DevFreelaCs")));
 builder.Services.AddSwaggerGen(c =>
