@@ -1,10 +1,12 @@
 ﻿using DevFreela.API.Models;
 using DevFreela.Application.Commands.CreateUser;
+using DevFreela.Application.Commands.LoginUser;
 using DevFreela.Application.InputModels;
 using DevFreela.Application.Queries.GetUser;
-using DevFreela.Application.Services.Interfaces;
+//using DevFreela.Application.Services.Interfaces;
 using DevFreela.Core.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,7 @@ using System.Threading.Tasks;
 namespace DevFreela.API.Controllers
 {
     [Route("api/users")]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         ////private readonly IUserService _userService; -- Instanciação da camada Service (Que pode ser usada, mas optei pelo CQRS)
@@ -56,6 +59,7 @@ namespace DevFreela.API.Controllers
 
         // api/users
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody] CreateUserCommand command)
         {
             //Utilizando service
@@ -68,13 +72,18 @@ namespace DevFreela.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = id }, command);
         }
 
-        // api/users/1/login
-        [HttpPut("{id}/login")]
-        public IActionResult Login(int id, [FromBody] LoginModel login)
+        // api/users/login
+        [HttpPut("login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
         {
             // TODO: Para Módulo de Autenticação e Autorização
-
-            return NoContent();
+            var loginUserViewModel = await _mediator.Send(command); 
+            if (loginUserViewModel == null) 
+            {
+                return BadRequest();
+            }
+            return Ok(loginUserViewModel);
         }
     }
 }
