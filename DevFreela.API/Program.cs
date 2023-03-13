@@ -8,6 +8,7 @@ using DevFreela.Application.Validators;
 using DevFreela.Core.Repositories;
 using DevFreela.Core.Services;
 using DevFreela.Infrastructure.Auth;
+using DevFreela.Infrastructure.Payments;
 using DevFreela.Infrastructure.Persistence;
 using DevFreela.Infrastructure.Persistence.Repositories;
 using FluentValidation.AspNetCore;
@@ -30,6 +31,8 @@ builder.Services.AddTransient<ISkillRepository, SkillRepository>();
 builder.Services.AddTransient<IProjectRepository, ProjectRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<IPaymentService, PaymentService>();
+builder.Services.AddHttpClient();
 builder.Services.AddControllers(options => options.Filters.Add(typeof(ValidationFilter)))
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserCommandValidator>());
 builder.Services.AddMediatR(typeof(CreateProjectCommand));
