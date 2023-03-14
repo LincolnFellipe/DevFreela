@@ -2,6 +2,7 @@ using DevFreela.API.Filters;
 using DevFreela.API.Models;
 using DevFreela.Application.Commands.CreateProject;
 using DevFreela.Application.Commands.CreateUser;
+using DevFreela.Application.Consumers;
 //using DevFreela.Application.Services.Implementations;
 //using DevFreela.Application.Services.Interfaces;
 using DevFreela.Application.Validators;
@@ -39,6 +40,10 @@ builder.Services.AddTransient<IMessageBusService, MessageBusService>();
 
 //Adição do httpclient pro microsserviço de payments, caso necessário
 builder.Services.AddHttpClient();
+
+//Adição do hosted service (similar a um serviço que irá ficar coletando as informações da fila)
+builder.Services.AddHostedService<PaymentApprovedConsumer>();
+
 
 //Adição dos controllers com fluentValidation
 builder.Services.AddControllers(options => options.Filters.Add(typeof(ValidationFilter)))
